@@ -7,6 +7,8 @@ canvas.height = 768
 c.fillStyle = 'white'
 c.fillRect(0, 0, canvas.width, canvas.height)
 
+
+
 const placementTilesData2D = []
 
 for (let i = 0; i < placementTilesData.length; i += 20) {
@@ -55,6 +57,7 @@ function spawnEnemies(spawnCount) {
   hp+=20
 }
 
+let kills = 0
 var buildings = []
 let activeTile = undefined
 let enemyCount = 3
@@ -65,11 +68,14 @@ var explosions = []
 
   document.querySelector('#startGame').style.display = 'flex'
 
+  let wave = 1;
 
 window.addEventListener('keydown', function(event){
   if(event.code == 'Space' && start == false){
     document.querySelector('#startGame').style.display = 'none'
     start = true
+    document.querySelector('#wave').innerHTML = 'WAVE ' + wave
+
     animate()
   }
   if(event.code == 'KeyR' && start == false){
@@ -115,9 +121,14 @@ function animate() {
     console.log(explosions)
   }
 
+  
+
   // tracking total amount of enemies
   if (enemies.length === 0) {
     enemyCount += 2
+    wave += 1
+    document.querySelector('#wave').innerHTML = 'WAVE ' + wave
+
     spawnEnemies(enemyCount)
   }
   
@@ -159,6 +170,8 @@ function animate() {
           if (enemyIndex > -1) {
             enemies.splice(enemyIndex, 1)
             coins += 40
+            kills += 1
+            document.querySelector('#kill').innerHTML = 'KILLS ' + kills
             document.querySelector('#coins').innerHTML = coins
           }
         }
@@ -184,6 +197,7 @@ const mouse = {
 }
 
 let buildingcost = 75
+document.querySelector('#cost').innerHTML = 75
 
 canvas.addEventListener('click', (event) => {
   if (activeTile && !activeTile.isOccupied && coins - buildingcost >= 0) {
@@ -202,9 +216,12 @@ canvas.addEventListener('click', (event) => {
       return a.position.y - b.position.y
     })
     buildingcost += 15
+    document.querySelector('#cost').innerHTML = buildingcost
   }
   
 })
+
+var buildingcostdisplay = document.querySelector('#buildingcost');
 
 canvas.addEventListener('mousemove', (event) => {
   mouse.x = event.offsetX
@@ -220,7 +237,13 @@ canvas.addEventListener('mousemove', (event) => {
       mouse.y < tile.position.y + tile.size
     ) {
       activeTile = tile
+      buildingcostdisplay.style.top = mouse.y
+      buildingcostdisplay.style.left = mouse.x
+      buildingcostdisplay.style.display = 'block'
+      
       break
+    }else{
+      buildingcostdisplay.style.display = 'none'
     }
   }
 })
