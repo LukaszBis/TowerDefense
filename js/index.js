@@ -141,7 +141,7 @@ function animate() {
         start = false
       }
     }
-    if(wave == 20){
+    if(wave >= 20){
       win.play()
       cancelAnimationFrame(animationId)
       document.querySelector('#youWin').style.display = 'flex'
