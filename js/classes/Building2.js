@@ -51,6 +51,6 @@ class Building extends Sprite {
         enemy: this.target
       })
     )
-    shoot.play()
+    muteBuilding()
   }
 }

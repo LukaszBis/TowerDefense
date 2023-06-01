@@ -70,6 +70,7 @@ var explosions = []
   let death = new Audio("./sounds/videogame-death-sound-43894.mp3");
   let win = new Audio("./sounds/winsquare-6993.mp3");
   let hurt = new Audio("./sounds/hurt_c_08-102842.mp3");
+  let shooting = new Audio("./sounds/strza-67506.mp3");
   let wave = 1;
 
 window.addEventListener('keydown', function(event){
@@ -88,6 +89,41 @@ window.addEventListener('keydown', function(event){
 
 spawnEnemies(enemyCount)
 
+
+var mutedPage = false
+var button = document.getElementById('mutee')
+button.addEventListener('click', mutePage)
+var button = document.getElementById('mutee2')
+button.addEventListener('click', mutePage)
+function mutePage() {
+  if(mutedPage){
+    startGame.muted = false
+    death.muted = false
+    win.muted = false
+    hurt.muted = false
+    shooting.muted = false
+    mutedPage = false
+    document.getElementsByClassName("hear")[0].style.display = 'block'
+    document.getElementsByClassName("donthear")[0].style.display = 'none'
+  }else{
+    startGame.muted = true
+    startGame.pause()
+    death.muted = true
+    death.pause()
+    win.muted = true
+    win.pause()
+    hurt.muted = true
+    hurt.pause()
+    shooting.muted = true
+    shooting.pause()
+    mutedPage = true
+    document.getElementsByClassName("hear")[0].style.display = 'none'
+    document.getElementsByClassName("donthear")[0].style.display = 'block'
+  }
+}
+function muteBuilding(){
+  shooting.play()
+}
 
 function animate() {
   const animationId = requestAnimationFrame(animate)

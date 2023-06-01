@@ -38,7 +38,7 @@ image.onload = () => {
 image.src = 'img/gameMap.png'
 
 const enemies = []
-
+let wave = 1
 let hp = 100
 
 function spawnEnemies(spawnCount) {
@@ -76,8 +76,8 @@ var explosions = []
   let win = new Audio("./sounds/winsquare-6993.mp3");
   let hurt = new Audio("./sounds/hurt_c_08-102842.mp3");
   let shooting = new Audio("./sounds/strza-67506.mp3");
+
   
-  let wave = 1
 
 window.addEventListener('keydown', function(event){
   if(event.code == 'Space' && start == false){
@@ -98,6 +98,8 @@ spawnEnemies(enemyCount)
 var mutedPage = false
 var button = document.getElementById('mutee')
 button.addEventListener('click', mutePage)
+var button = document.getElementById('mutee2')
+button.addEventListener('click', mutePage)
 function mutePage() {
   if(mutedPage){
     startGame.muted = false
@@ -106,6 +108,8 @@ function mutePage() {
     hurt.muted = false
     shooting.muted = false
     mutedPage = false
+    document.getElementsByClassName("hear")[0].style.display = 'block'
+    document.getElementsByClassName("donthear")[0].style.display = 'none'
   }else{
     startGame.muted = true
     startGame.pause()
@@ -118,6 +122,8 @@ function mutePage() {
     shooting.muted = true
     shooting.pause()
     mutedPage = true
+    document.getElementsByClassName("hear")[0].style.display = 'none'
+    document.getElementsByClassName("donthear")[0].style.display = 'block'
   }
 }
 function muteBuilding(){
