@@ -34,30 +34,51 @@ placementTilesData2D.forEach((row, y) => {
 const image = new Image()
 
 image.onload = () => {
-  animate()
+  c.drawImage(image, 0, 0)
 }
 image.src = 'img/gameMap.png'
 
 const enemies = []
+
+let hp = 100
 
 function spawnEnemies(spawnCount) {
   for (let i = 1; i < spawnCount + 1; i++) {
     const xOffset = i * 150
     enemies.push(
       new Enemy({
-        position: { x: waypoints[0].x - xOffset, y: waypoints[0].y }
+        position: { x: waypoints[0].x - xOffset, y: waypoints[0].y, health: hp }
       })
     )
+    
   }
+  hp+=20
 }
 
-const buildings = []
+var buildings = []
 let activeTile = undefined
 let enemyCount = 3
 let hearts = 10
 let coins = 100
-const explosions = []
+let start = false
+var explosions = []
+
+  document.querySelector('#startGame').style.display = 'flex'
+
+
+window.addEventListener('keydown', function(event){
+  if(event.code == 'Space' && start == false){
+    document.querySelector('#startGame').style.display = 'none'
+    start = true
+    animate()
+  }
+  if(event.code == 'KeyR' && start == false){
+    location.reload()
+  }
+})
+
 spawnEnemies(enemyCount)
+
 
 function animate() {
   const animationId = requestAnimationFrame(animate)
@@ -73,10 +94,11 @@ function animate() {
       enemies.splice(i, 1)
       document.querySelector('#hearts').innerHTML = hearts
 
-      if (hearts === 0) {
+      if (hearts <= 0) {
         console.log('game over')
         cancelAnimationFrame(animationId)
         document.querySelector('#gameOver').style.display = 'flex'
+        start = false
       }
     }
   }
@@ -98,6 +120,7 @@ function animate() {
     enemyCount += 2
     spawnEnemies(enemyCount)
   }
+  
 
   placementTiles.forEach((tile) => {
     tile.update(mouse)
@@ -144,7 +167,7 @@ function animate() {
         explosions.push(
           new Sprite({
             position: { x: projectile.position.x, y: projectile.position.y },
-            imageSrc: './img/explosion.png',
+            imageSrc: './img/explosion2.png',
             frames: { max: 4 },
             offset: { x: 0, y: 0 }
           })
@@ -160,9 +183,11 @@ const mouse = {
   y: undefined
 }
 
+let buildingcost = 50
+
 canvas.addEventListener('click', (event) => {
-  if (activeTile && !activeTile.isOccupied && coins - 50 >= 0) {
-    coins -= 50
+  if (activeTile && !activeTile.isOccupied && coins - buildingcost >= 0) {
+    coins -= buildingcost
     document.querySelector('#coins').innerHTML = coins
     buildings.push(
       new Building({
@@ -176,19 +201,21 @@ canvas.addEventListener('click', (event) => {
     buildings.sort((a, b) => {
       return a.position.y - b.position.y
     })
+    buildingcost += 5
   }
+  
 })
 
-window.addEventListener('mousemove', (event) => {
-  mouse.x = event.clientX
-  mouse.y = event.clientY
-
+canvas.addEventListener('mousemove', (event) => {
+  mouse.x = event.offsetX
+  mouse.y = event.offsetY
+  
   activeTile = null
   for (let i = 0; i < placementTiles.length; i++) {
     const tile = placementTiles[i]
     if (
       mouse.x > tile.position.x &&
-      mouse.x < tile.position.x + tile.size &&
+      mouse.x < tile.position.x + tile.size * 2 &&
       mouse.y > tile.position.y &&
       mouse.y < tile.position.y + tile.size
     ) {
