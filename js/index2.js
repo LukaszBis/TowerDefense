@@ -61,7 +61,7 @@ var buildings = []
 let activeTile = undefined
 let enemyCount = 3
 let hearts = 10
-let coins = 100
+let coins = 165
 let start = false
 var explosions = []
 
