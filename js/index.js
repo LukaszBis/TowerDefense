@@ -51,7 +51,10 @@ function spawnEnemies(spawnCount) {
     )
     
   }
-  hp+=7
+  if(wave == 8){
+    hp+=15
+  }
+  hp+=10
 }
 
 let kills = 0
