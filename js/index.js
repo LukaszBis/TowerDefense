@@ -205,7 +205,7 @@ function animate() {
             enemies.splice(enemyIndex, 1)
             kills += 1
             document.querySelector('#kill').innerHTML = 'KILLS ' + kills
-            coins += 20
+            coins += 10
             document.querySelector('#coins').innerHTML = coins
           }
         }
