@@ -41,7 +41,6 @@ class Sprite {
   }
 
   update() {
-    // responsible for animation
     this.frames.elapsed++
     if (this.frames.elapsed % this.frames.hold === 0) {
       this.frames.current++

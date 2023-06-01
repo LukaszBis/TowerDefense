@@ -20,7 +20,6 @@ const placementTiles = []
 placementTilesData2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
     if (symbol === 14) {
-      // add building placement tile here
       placementTiles.push(
         new PlacementTile({
           position: {
@@ -67,13 +66,17 @@ let start = false
 var explosions = []
 
   document.querySelector('#startGame').style.display = 'flex'
-
+  let startGame = new Audio("./sounds/game-start-6104.mp3");
+  let death = new Audio("./sounds/videogame-death-sound-43894.mp3");
+  let win = new Audio("./sounds/winsquare-6993.mp3");
+  let hurt = new Audio("./sounds/hurt_c_08-102842.mp3");
   let wave = 1;
 
 window.addEventListener('keydown', function(event){
   if(event.code == 'Space' && start == false){
     document.querySelector('#startGame').style.display = 'none'
     start = true
+    startGame.play()
     document.querySelector('#wave').innerHTML = 'WAVE ' + wave
 
     animate()
@@ -101,11 +104,18 @@ function animate() {
       document.querySelector('#hearts').innerHTML = hearts
 
       if (hearts <= 0) {
+        death.play()
         console.log('game over')
         cancelAnimationFrame(animationId)
         document.querySelector('#gameOver').style.display = 'flex'
         start = false
       }
+    }
+    if(wave == 20){
+      win.play()
+      cancelAnimationFrame(animationId)
+      document.querySelector('#youWin').style.display = 'flex'
+      start = false
     }
   }
 
@@ -121,9 +131,6 @@ function animate() {
     console.log(explosions)
   }
 
-  
-
-  // tracking total amount of enemies
   if (enemies.length === 0) {
     enemyCount += 2
     wave += 1
@@ -157,10 +164,9 @@ function animate() {
       const yDifference = projectile.enemy.center.y - projectile.position.y
       const distance = Math.hypot(xDifference, yDifference)
 
-      // this is when a projectile hits an enemy
       if (distance < projectile.enemy.radius + projectile.radius) {
-        // enemy health and enemy removal
         projectile.enemy.health -= 45
+        hurt.play()
         console.log(projectile.enemy.health)
         if (projectile.enemy.health <= 0) {
           const enemyIndex = enemies.findIndex((enemy) => {

@@ -25,11 +25,6 @@ class Building extends Sprite {
 
   draw() {
     super.draw()
-
-    // c.beginPath()
-    // c.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2)
-    // c.fillStyle = 'rgba(0, 0, 255, 0.2)'
-    // c.fill()
   }
 
   update() {
@@ -46,6 +41,7 @@ class Building extends Sprite {
   }
 
   shoot() {
+    let shoot = new Audio("./sounds/strza-67506.mp3");
     this.projectiles.push(
       new Projectile({
         position: {
@@ -55,5 +51,6 @@ class Building extends Sprite {
         enemy: this.target
       })
     )
+    shoot.play()
   }
 }

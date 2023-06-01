@@ -27,7 +27,6 @@ class Enemy extends Sprite {
   draw() {
     super.draw()
 
-    // health bar
     c.fillStyle = 'red'
     c.fillRect(this.position.x, this.position.y - 15, this.width, 10)
 

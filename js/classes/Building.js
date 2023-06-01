@@ -21,15 +21,12 @@ class Building extends Sprite {
     this.projectiles = []
     this.radius = 250
     this.target
+    
   }
 
   draw() {
     super.draw()
 
-    // c.beginPath()
-    // c.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2)
-    // c.fillStyle = 'rgba(0, 0, 255, 0.2)'
-    // c.fill()
   }
 
   update() {
@@ -54,6 +51,8 @@ class Building extends Sprite {
         },
         enemy: this.target
       })
+      
     )
+    muteBuilding()
   }
 }
