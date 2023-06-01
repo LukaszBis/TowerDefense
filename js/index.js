@@ -51,7 +51,7 @@ function spawnEnemies(spawnCount) {
     )
     
   }
-  hp+=20
+  hp+=10
 }
 
 let kills = 0
